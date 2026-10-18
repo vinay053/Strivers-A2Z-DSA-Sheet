@@ -1,26 +1,47 @@
-/*Question:
-Given an array containing N integers and an integer K, find the length of the longest subarray with the sum of the elements equal to K.
+/**
+ * Problem: Longest Subarray with Sum K (Containing Positives and Negatives)
+ * 
+ * QUESTION:
+ * Given an array containing N integers and an integer K, find the length of the longest
+ * subarray with the sum of the elements equal to K.
+ * 
+ * Example:
+ * Input:
+ * N = 6, K = 15, A[] = {10, 5, 2, 7, 1, 9}
+ * Output: 4
+ * Explanation: The subarray is {5, 2, 7, 1}.
+ * 
+ * APPROACH:
+ * Prefix sum with Hash Map:
+ * -> Store the earliest index where each prefix sum was seen.
+ * -> At each index i, pref_sum += A[i].
+ * -> If pref_sum == K, ans = max(ans, i + 1).
+ * -> If (pref_sum - K) is in map, ans = max(ans, i - mp[pref_sum - K]).
+ * -> Only insert pref_sum into map if not already present (to maximize subarray length).
+ * 
+ * TIME COMPLEXITY: O(N)
+ * SPACE COMPLEXITY: O(N)
+ */
 
-Example:
-Input:
-A[] = {10, 5, 2, 7, 1, 9}
-K = 15
-Output:
-4
-Explanation:
-The sub-array is {5, 2, 7, 1}.
+#include <bits/stdc++.h>
+using namespace std;
 
-Approach:
-To solve this problem, we can use a prefix sum approach along with a hashmap to keep track of the prefix sums encountered so far. We iterate through the array and maintain a prefix sum variable. At each index, we check if the prefix sum equals K, in which case we update the maximum length of the subarray found so far. Additionally, we check if the current prefix sum minus K exists in the hashmap. If it does, it means there is a subarray between the previous occurrence of the prefix sum minus K and the current index that sums up to K. We update the maximum length accordingly. We store the prefix sums and their corresponding indices in the hashmap.
+#define fast_io ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define ll long long
+#define vi vector<int>
+#define vll vector<long long>
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
 
-Code:
-*/
-int lenOfLongSubarr(int A[], int N, int K) {
-    int pref_sum = 0;
+// ---------------------- SOLUTION ----------------------
+int lenOfLongSubarr(const vector<int> &A, int N, int K)
+{
+    long long pref_sum = 0;
     int ans = 0;
-    unordered_map<int, int> mp;
+    unordered_map<long long, int> mp;
 
-    for (int i = 0; i < N; i++) {
+    for (int i = 0; i < N; i++)
+    {
         pref_sum += A[i];
         if (pref_sum == K)
             ans = max(ans, i + 1);
@@ -31,7 +52,28 @@ int lenOfLongSubarr(int A[], int N, int K) {
     }
     return ans;
 }
-/*
-Time Complexity: The code iterates through the array once, resulting in a time complexity of O(N), where N is the size of the array.
-Space Complexity: The code uses an unordered map to store the prefix sums and their corresponding indices. In the worst case, all elements of the array could be distinct, leading to a space complexity of O(N) to store the prefix sums in the map.
-*/
+
+// ---------------------- CP DRIVER / SOLVE ----------------------
+void solve()
+{
+    int n, k;
+    if (!(cin >> n >> k)) return;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i];
+    }
+    cout << lenOfLongSubarr(a, n, k) << "\n";
+}
+
+int main()
+{
+    fast_io;
+    int t = 1;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

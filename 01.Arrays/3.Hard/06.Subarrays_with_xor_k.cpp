@@ -1,50 +1,83 @@
-/*QUESTION:
-Given an array 'A' consisting of 'N' integers and an integer 'B', find the number of subarrays of array 'A' whose bitwise XOR of all elements is equal to 'B'.
+/**
+ * Problem: Subarrays with XOR K
+ * 
+ * QUESTION:
+ * Given an array 'A' consisting of 'N' integers and an integer 'B', find the number of subarrays
+ * of array 'A' whose bitwise XOR of all elements is equal to 'B'.
+ * 
+ * Example:
+ * Input: N = 4, B = 2, A = [1, 2, 3, 2]
+ * Output: 3
+ * Explanation: Subarrays with XOR 2 are: [1, 2, 3, 2], [2], [2].
+ * 
+ * APPROACH:
+ * Prefix XOR with Hash Map:
+ * -> Let pref_xr be the XOR sum up to the current index.
+ * -> We want a previous prefix XOR `x` such that pref_xr ^ x = B, which means x = pref_xr ^ B.
+ * -> Check how many times (pref_xr ^ B) has occurred previously in the map and add to ans.
+ * -> If pref_xr == B, also increment ans.
+ * -> Increment the frequency of pref_xr in the map.
+ * 
+ * TIME COMPLEXITY: O(N)
+ * SPACE COMPLEXITY: O(N)
+ */
 
-Example:
-Input: 'N' = 4, 'B' = 2
-'A' = [1, 2, 3, 2]
-Output: 3
-Explanation: Subarrays have bitwise xor equal to '2' are: [1, 2, 3, 2], [2], [2].
+#include <bits/stdc++.h>
+using namespace std;
 
-APPROACH:
-To find the number of subarrays with bitwise XOR equal to B, we can use the technique of prefix XOR along with a hashmap.
-1. Initialize a variable `prefixXOR` to keep track of the prefix XOR while iterating through the array.
-2. Initialize a variable `count` to keep track of the count of subarrays with XOR equal to B.
-3. Initialize a hashmap `xorCount` to store the frequency of prefix XOR values encountered so far.
-4. Set the initial prefix XOR to 0 and set its count to 1 in the `xorCount` hashmap.
-5. Iterate through the array and update the prefix XOR by XOR-ing each element.
-6. Check if the current prefix XOR is equal to B. If it is, increment the `count` variable.
-7. Check if the XOR of the current prefix XOR with B exists in the `xorCount` hashmap. If it does, add the count of that XOR value to the `count` variable.
-8. Increment the count of the current prefix XOR in the `xorCount` hashmap.
-9. Finally, return the `count` variable as the number of subarrays with XOR equal to B.
+#define fast_io ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define ll long long
+#define vi vector<int>
+#define vll vector<long long>
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
 
-CODE:
-*/
-
-int subarraysWithSumK(vector<int> a, int b) {
+// ---------------------- SOLUTION ----------------------
+int subarraysWithSumK(const vector<int> &a, int b)
+{
     int pref_xr = 0;
     int ans = 0;
     unordered_map<int, int> mp;
-    
-    for(int i = 0; i < a.size(); i++){
-        pref_xr = pref_xr ^ a[i];
-        
-        if(pref_xr == b)
+
+    for (int i = 0; i < (int)a.size(); i++)
+    {
+        pref_xr ^= a[i];
+
+        if (pref_xr == b)
             ans++;
-        
-        if(mp.find(pref_xr ^ b) != mp.end()){
+
+        if (mp.find(pref_xr ^ b) != mp.end())
+        {
             ans += mp[pref_xr ^ b];
         }
-        
+
         mp[pref_xr]++;
     }
-    
+
     return ans;
 }
 
-/*
-TIME COMPLEXITY: O(n), where n is the size of the input array a.
-SPACE COMPLEXITY: O(n), as we are using a hashmap to store the prefix XOR values and their corresponding counts.
-*/
+// ---------------------- CP DRIVER / SOLVE ----------------------
+void solve()
+{
+    int n, b;
+    if (!(cin >> n >> b)) return;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i];
+    }
+    cout << subarraysWithSumK(a, b) << "\n";
+}
 
+int main()
+{
+    fast_io;
+    int t = 1;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

@@ -1,42 +1,68 @@
-/*
-**Question:**
+/**
+ * Problem: Pascal's Triangle (Get Row)
+ * 
+ * QUESTION:
+ * Given an integer rowIndex, return the rowIndex-th (0-indexed) row of Pascal's triangle.
+ * In Pascal's triangle, each number is the sum of the two numbers directly above it.
+ * 
+ * Example:
+ * Input: rowIndex = 3
+ * Output: [1, 3, 3, 1]
+ * 
+ * APPROACH:
+ * Use binomial coefficient formula: C(n, k) = C(n, k-1) * (n - k + 1) / k
+ * Starting with coefficient = 1, compute each column in linear time.
+ * 
+ * TIME COMPLEXITY: O(rowIndex)
+ * SPACE COMPLEXITY: O(1) (excluding output vector)
+ */
 
-Given an integer `rowIndex`, return the `rowIndex`th (0-indexed) row of Pascal's triangle.
+#include <bits/stdc++.h>
+using namespace std;
 
-In Pascal's triangle, each number is the sum of the two numbers directly above it.
+#define fast_io ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define ll long long
+#define vi vector<int>
+#define vll vector<long long>
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
 
-Example:
-
-Input: `rowIndex = 3`
-
-Output: `[1, 3, 3, 1]`
-*/
-
-/*
-**APPROACH:**
-To generate the `rowIndex`th row of Pascal's triangle, we can use the property that each number is the sum of the two numbers directly above it. We start with the base case of the first row, which is `[1]`. Then, for each subsequent row, we calculate the elements using the formula `C(n, k) = C(n-1, k-1) * (n-k+1) / k`, where `C(n, k)` represents the binomial coefficient.
-
-**CODE:**
-*/
-
-vector<int> getRow(int rowIndex) {
-    vector<int> row(rowIndex + 1, 1); // Initialize the row with 1s
+// ---------------------- SOLUTION ----------------------
+vector<int> getRow(int rowIndex)
+{
+    vector<int> row(rowIndex + 1, 1);
     long long coefficient = 1;
-    
-    for (int col = 1; col <= rowIndex; col++) {
+
+    for (int col = 1; col <= rowIndex; col++)
+    {
         coefficient = coefficient * (rowIndex - col + 1) / col;
-        row[col] = coefficient;
+        row[col] = (int)coefficient;
     }
-    
+
     return row;
 }
 
-/*
-**COMPLEXITY ANALYSIS:**
-- Time Complexity: O(rowIndex)
-  - We iterate over each element in the row and calculate its value using the binomial coefficient formula.
-- Space Complexity: O(rowIndex)
-  - We use additional space to store the row of Pascal's triangle.
+// ---------------------- CP DRIVER / SOLVE ----------------------
+void solve()
+{
+    int rowIndex;
+    if (!(cin >> rowIndex)) return;
+    vector<int> row = getRow(rowIndex);
+    for (int i = 0; i < (int)row.size(); i++)
+    {
+        cout << row[i] << (i == (int)row.size() - 1 ? "" : " ");
+    }
+    cout << "\n";
+}
 
-Overall, the algorithm has a linear time complexity and linear space complexity.
-*/
+int main()
+{
+    fast_io;
+    int t = 1;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

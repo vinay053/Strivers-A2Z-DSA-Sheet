@@ -1,86 +1,115 @@
-/*
-QUESTION:
-Given an integer array nums, return the number of reverse pairs in the array.
-A reverse pair is a pair (i, j) where:
-0 <= i < j < nums.length and
-nums[i] > 2 * nums[j].
+/**
+ * Problem: Reverse Pairs
+ * 
+ * QUESTION:
+ * Given an integer array nums, return the number of reverse pairs in the array.
+ * A reverse pair is a pair (i, j) where 0 <= i < j < nums.length and nums[i] > 2 * nums[j].
+ * 
+ * Example:
+ * Input: nums = [1, 3, 2, 3, 1]
+ * Output: 2
+ * Explanation: Reverse pairs are (1, 4) [3 > 2*1] and (3, 4) [3 > 2*1].
+ * 
+ * APPROACH:
+ * Merge Sort with Counting:
+ * -> In merge step, before merging elements, use two pointers:
+ *    for each element in left array, count how many elements in right array satisfy left[i] > 2 * right[m].
+ * -> Then merge the two sorted halves normally.
+ * 
+ * TIME COMPLEXITY: O(N log N)
+ * SPACE COMPLEXITY: O(N)
+ */
 
-Example:
-Input: nums = [1,3,2,3,1]
-Output: 2
-Explanation: The reverse pairs are:
-(1, 4) --> nums[1] = 3, nums[4] = 1, 3 > 2 * 1
-(3, 4) --> nums[3] = 3, nums[4] = 1, 3 > 2 * 1
+#include <bits/stdc++.h>
+using namespace std;
 
-APPROACH:
-To solve this problem, we can use the merge sort algorithm. While merging the two sorted subarrays, we can count the number of reverse pairs.
+#define fast_io ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define ll long long
+#define vi vector<int>
+#define vll vector<long long>
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
 
-1. Define a variable 'rev_pair' to store the count of reverse pairs.
-2. Implement the 'merge' function to merge two subarrays and count the reverse pairs.
-3. Implement the 'mergesort' function to recursively divide the array into subarrays and perform merge sort.
-4. Initialize 'rev_pair' to 0 and call the 'mergesort' function on the given array.
-5. Return the 'rev_pair' as the result.
-
-CODE:
-*/
-
-int rev_pair = 0;
-
-void merge(int start, int mid, int end, vector<int>& nums){
-    int left_size = mid - start + 1;
-    int right_size = end - mid;
-    vector<int> left(left_size);
-    vector<int> right(right_size);
-
-    for(int i = 0; i < left_size; i++){
-        left[i] = nums[start + i];
-    }
-    for(int i = 0; i < right_size; i++){
-        right[i] = nums[mid + 1 + i];
-    }
-
-    // main logic resides here
-    int m = 0;
-    for(int i = 0; i < left_size; i++){
-        while(m < right_size && left[i] > (long long)2 * right[m]){
-            m++;
+// ---------------------- SOLUTION ----------------------
+int countPairs(vector<int> &nums, int start, int mid, int end)
+{
+    int right_start = mid + 1;
+    int cnt = 0;
+    for (int i = start; i <= mid; i++)
+    {
+        while (right_start <= end && (long long)nums[i] > 2LL * nums[right_start])
+        {
+            right_start++;
         }
-        rev_pair += m;
+        cnt += (right_start - (mid + 1));
     }
+    return cnt;
+}
 
-    int i = 0, j = 0, k = start;
-    while(i < left_size && j < right_size){
-        if(left[i] > right[j]){
-            nums[k++] = right[j++];
+void merge(vector<int> &nums, int start, int mid, int end)
+{
+    vector<int> temp;
+    int i = start, j = mid + 1;
+    while (i <= mid && j <= end)
+    {
+        if (nums[i] <= nums[j])
+        {
+            temp.push_back(nums[i++]);
         }
-        else{
-            nums[k++] = left[i++];
+        else
+        {
+            temp.push_back(nums[j++]);
         }
     }
-    while(i < left_size){
-        nums[k++] = left[i++];
-    }
-    while(j < right_size){
-        nums[k++] = right[j++];
+    while (i <= mid) temp.push_back(nums[i++]);
+    while (j <= end) temp.push_back(nums[j++]);
+
+    for (int idx = start; idx <= end; idx++)
+    {
+        nums[idx] = temp[idx - start];
     }
 }
 
-void mergesort(int start, int end, vector<int>& nums){
-    if(start >= end)
-        return;
-    int mid = start + (end - start) / 2;
-    mergesort(start, mid, nums);
-    mergesort(mid + 1, end, nums);
-    merge(start, mid, end, nums);
+int mergeSort(vector<int> &nums, int start, int end)
+{
+    int cnt = 0;
+    if (start < end)
+    {
+        int mid = start + (end - start) / 2;
+        cnt += mergeSort(nums, start, mid);
+        cnt += mergeSort(nums, mid + 1, end);
+        cnt += countPairs(nums, start, mid, end);
+        merge(nums, start, mid, end);
+    }
+    return cnt;
 }
 
-int reversePairs(vector<int>& nums) {
-    rev_pair = 0;
-    mergesort(0, nums.size() - 1, nums);
-    return rev_pair;
+int reversePairs(vector<int> &nums)
+{
+    return mergeSort(nums, 0, (int)nums.size() - 1);
 }
 
-/*
-TIME COMPLEXITY: O(n log n), where n is the size of the array.
-SPACE COMPLEXITY: O(n), where n is the size of the array.
-*/
+// ---------------------- CP DRIVER / SOLVE ----------------------
+void solve()
+{
+    int n;
+    if (!(cin >> n)) return;
+    vector<int> nums(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> nums[i];
+    }
+    cout << reversePairs(nums) << "\n";
+}
+
+int main()
+{
+    fast_io;
+    int t = 1;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

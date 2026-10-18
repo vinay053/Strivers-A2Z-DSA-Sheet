@@ -1,44 +1,44 @@
-/*
-QUESTION:-
-You are given an array prices where prices[i] is the price of a given stock on the ith day.
-You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
-Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+/**
+ * Problem: Best Time to Buy and Sell Stock
+ * 
+ * QUESTION:
+ * You are given an array prices where prices[i] is the price of a given stock on the ith day.
+ * You want to maximize your profit by choosing a single day to buy one stock and choosing a
+ * different day in the future to sell that stock.
+ * Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+ * 
+ * Example:
+ * Input: prices = [7, 1, 5, 3, 6, 4]
+ * Output: 5
+ * Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6 - 1 = 5.
+ * 
+ * APPROACH:
+ * -> Track minprice seen so far and max profit.
+ * -> For each price:
+ *      ans = max(ans, price - minprice)
+ *      minprice = min(minprice, price)
+ * 
+ * TIME COMPLEXITY: O(N)
+ * SPACE COMPLEXITY: O(1)
+ */
 
-Example 1:
+#include <bits/stdc++.h>
+using namespace std;
 
-Input: prices = [7,1,5,3,6,4]
-Output: 5
-Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
-Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+#define fast_io ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define ll long long
+#define vi vector<int>
+#define vll vector<long long>
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
 
-Example 2:
-
-Input: prices = [7,6,4,3,1]
-Output: 0
-Explanation: In this case, no transactions are done and the max profit = 0.
-*/
-
-/*
-APPROACH:-
-Initialize two variables: min_price and max_profit.
-
--> min_price = minimum price in the array.
--> max_profit = 0.
-
-Iterate through the array, and for each price:
-
--> Update min_price to the minimum price seen so far.
--> Update max_profit to the maximum profit seen so far, or the current price minus min_price, whichever is greater.
-
-Return max_profit.
-*/
-
-// CODE:-
-int maxProfit(vector<int> &prices)
+// ---------------------- SOLUTION ----------------------
+int maxProfit(const vector<int> &prices)
 {
+    if (prices.empty()) return 0;
     int minprice = prices[0];
     int ans = 0;
-    for (int i = 1; i < prices.size(); i++)
+    for (int i = 1; i < (int)prices.size(); i++)
     {
         ans = max(ans, prices[i] - minprice);
         minprice = min(minprice, prices[i]);
@@ -46,5 +46,27 @@ int maxProfit(vector<int> &prices)
     return ans;
 }
 
-// TIME COMPLEXITY = O(N)
-// SPACE COMPLEXITY = O(0)
+// ---------------------- CP DRIVER / SOLVE ----------------------
+void solve()
+{
+    int n;
+    if (!(cin >> n)) return;
+    vector<int> prices(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> prices[i];
+    }
+    cout << maxProfit(prices) << "\n";
+}
+
+int main()
+{
+    fast_io;
+    int t = 1;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

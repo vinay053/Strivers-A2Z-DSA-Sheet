@@ -1,57 +1,88 @@
-/*
-QUESTION:-
+/**
+ * Problem: Rotate Array Left and Right by K Places
+ * 
+ * QUESTION:
+ * Given an array of integers, rotating array by k elements.
+ * 
+ * Example:
+ * Input:
+ * N = 7, array[] = {1, 2, 3, 4, 5, 6, 7}, k = 2
+ * Output (Right Rotate): 6 7 1 2 3 4 5
+ * Output (Left Rotate): 3 4 5 6 7 1 2
+ * 
+ * APPROACH:
+ * Right rotate:
+ * 1. Reverse the first (n - k) elements.
+ * 2. Reverse the remaining k elements.
+ * 3. Reverse the entire array.
+ * 
+ * Left rotate:
+ * 1. Reverse the first k elements.
+ * 2. Reverse the remaining (n - k) elements.
+ * 3. Reverse the entire array.
+ * 
+ * TIME COMPLEXITY: O(N)
+ * SPACE COMPLEXITY: O(1)
+ */
 
-Given an integer array nums, rotate the array to the right by k steps, where k is non-negative.
+#include <bits/stdc++.h>
+using namespace std;
 
-Example 1:
+#define fast_io ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define ll long long
+#define vi vector<int>
+#define vll vector<long long>
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
 
-Input: nums = [1,2,3,4,5,6,7], k = 3
-Output: [5,6,7,1,2,3,4]
-Explanation:
-rotate 1 steps to the right: [7,1,2,3,4,5,6]
-rotate 2 steps to the right: [6,7,1,2,3,4,5]
-rotate 3 steps to the right: [5,6,7,1,2,3,4]
-Example 2:
-
-Input: nums = [-1,-100,3,99], k = 2
-Output: [3,99,-1,-100]
-Explanation:
-rotate 1 steps to the right: [99,-1,-100,3]
-rotate 2 steps to the right: [3,99,-1,-100]
-*/
-
-/*
-APPROACH:-
-To rotate the array k places to right follow below steps
--> Reverse first n-k elements
--> Reverse last k elements
--> Reverse the entire array
-
-To rotate the array k places to left follow below steps
--> Reverse first k elements
--> Reverse last n-k elements
--> Reverse the entire array
-*/
-
-// CODE:-
-
-// RIGHT ROATATE:-
-void rightRotate(int arr[], int n, int k)
+// ---------------------- SOLUTION ----------------------
+void rightRotate(vector<int> &arr, int n, int k)
 {
-    k = k % n; // to keep k within the range
-    reverse(arr, arr + (n - k));
-    reverse(arr + (n - k), arr + n);
-    reverse(arr, arr + n);
+    if (n == 0) return;
+    k = k % n;
+    reverse(arr.begin(), arr.begin() + (n - k));
+    reverse(arr.begin() + (n - k), arr.end());
+    reverse(arr.begin(), arr.end());
 }
 
-// LEFT ROATATE:-
-void leftRotate(int arr[], int n, int k)
+void leftRotate(vector<int> &arr, int n, int k)
 {
-    k = k % n; // to keep k within the range
-    reverse(arr, arr + k);
-    reverse(arr + k, arr + n);
-    reverse(arr, arr + n);
+    if (n == 0) return;
+    k = k % n;
+    reverse(arr.begin(), arr.begin() + k);
+    reverse(arr.begin() + k, arr.end());
+    reverse(arr.begin(), arr.end());
 }
 
-// TIME COMPLEXITY = O(N)
-// SPACE COMPLEXITY = O(0)
+// ---------------------- CP DRIVER / SOLVE ----------------------
+void solve()
+{
+    int n, k;
+    if (!(cin >> n >> k)) return;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> arr[i];
+    }
+    
+    // Demonstrating right rotation (can switch to leftRotate as needed)
+    vector<int> arr_right = arr;
+    rightRotate(arr_right, n, k);
+    for (int i = 0; i < n; i++)
+    {
+        cout << arr_right[i] << (i == n - 1 ? "" : " ");
+    }
+    cout << "\n";
+}
+
+int main()
+{
+    fast_io;
+    int t = 1;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

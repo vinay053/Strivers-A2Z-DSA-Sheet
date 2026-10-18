@@ -1,36 +1,45 @@
-/*
-QUESTION:-
+/**
+ * Problem: Leaders in an Array
+ * 
+ * QUESTION:
+ * Given an array A of positive integers. Your task is to find the leaders in the array.
+ * An element of array is leader if it is greater than or equal to all the elements to its right side.
+ * The rightmost element is always a leader.
+ * 
+ * Example:
+ * Input:
+ * n = 6, A[] = {16, 17, 4, 3, 5, 2}
+ * Output: 17 5 2
+ * Explanation: The first leader is 17 as it is greater than all elements to its right.
+ * Similarly, 5 and 2 are also leaders.
+ * 
+ * APPROACH:
+ * -> Traverse the array from right to left.
+ * -> Keep track of the maximum element seen so far (`maxi`).
+ * -> If current element >= maxi, it's a leader. Add to result and update maxi.
+ * -> Reverse the result to maintain original relative order.
+ * 
+ * TIME COMPLEXITY: O(N)
+ * SPACE COMPLEXITY: O(N) (for output)
+ */
 
-Given an array A of positive integers. Your task is to find the leaders in the array. An element of the array is a leader if it is greater than or equal to all the elements to its right side. The rightmost element is always a leader.
+#include <bits/stdc++.h>
+using namespace std;
 
-Example 1:
-Input:
-n = 6
-A[] = {16,17,4,3,5,2}
-Output: 17 5 2
-Explanation: The first leader is 17 as it is greater than all the elements to its right. Similarly, the next leader is 5. The rightmost element is always a leader, so it is also included.
+#define fast_io ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define ll long long
+#define vi vector<int>
+#define vll vector<long long>
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
 
-*/
-
-/*
-APPROACH:-
-
-To find the leaders in the array, we can follow these steps:
-
-1. Initialize a variable `maxRight` with the rightmost element of the array.
-2. Iterate the array from right to left:
-   - If the current element is greater than or equal to `maxRight`, it is a leader. Print the current element and update `maxRight` to the current element.
-3. Finally, print `maxRight` as it is always a leader.
-
-*/
-
-// CODE:
-
-vector<int> leaders(int a[], int n)
+// ---------------------- SOLUTION ----------------------
+vector<int> leaders(const vector<int> &a, int n)
 {
     vector<int> ans;
+    if (n == 0) return ans;
     ans.push_back(a[n - 1]);
-    int maxi = a[n - 1]; // represent maximum encountered till now
+    int maxi = a[n - 1];
 
     for (int i = n - 2; i >= 0; i--)
     {
@@ -45,6 +54,32 @@ vector<int> leaders(int a[], int n)
     return ans;
 }
 
-// TIME COMPLEXITY: O(n), where n is the size of the array.
-// SPACE COMPLEXITY: O(1)
+// ---------------------- CP DRIVER / SOLVE ----------------------
+void solve()
+{
+    int n;
+    if (!(cin >> n)) return;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i];
+    }
+    vector<int> res = leaders(a, n);
+    for (int i = 0; i < (int)res.size(); i++)
+    {
+        cout << res[i] << (i == (int)res.size() - 1 ? "" : " ");
+    }
+    cout << "\n";
+}
 
+int main()
+{
+    fast_io;
+    int t = 1;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

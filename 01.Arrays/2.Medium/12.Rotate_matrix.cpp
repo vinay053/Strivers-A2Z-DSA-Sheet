@@ -1,47 +1,84 @@
-/*
-QUESTION:-
+/**
+ * Problem: Rotate Image / Rotate Matrix by 90 Degrees Clockwise
+ * 
+ * QUESTION:
+ * You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).
+ * You have to rotate the image in-place, which means you have to modify the input 2D matrix directly.
+ * 
+ * Example:
+ * Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+ * Output: [[7,4,1],[8,5,2],[9,6,3]]
+ * 
+ * APPROACH:
+ * 1. Transpose the matrix: swap(matrix[i][j], matrix[j][i]) for all j < i.
+ * 2. Reverse each row: reverse(matrix[i].begin(), matrix[i].end()).
+ * 
+ * TIME COMPLEXITY: O(N^2)
+ * SPACE COMPLEXITY: O(1)
+ */
 
-You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).
+#include <bits/stdc++.h>
+using namespace std;
 
-Example 1:
-Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
-Output: [[7,4,1],[8,5,2],[9,6,3]]
+#define fast_io ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define ll long long
+#define vi vector<int>
+#define vll vector<long long>
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
 
-Example 2:
-Input: matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
-Output: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
-
-*/
-
-/*
-APPROACH:-
-
-To rotate the image by 90 degrees clockwise in-place, we can follow these steps:
-
-1. Transpose the matrix: Iterate over the matrix and swap each element (i, j) with its corresponding element (j, i). This step transforms rows into columns.
-
-2. Reverse each row: Iterate over each row in the transposed matrix and reverse the elements. This step ensures the rotation in a clockwise direction.
-
-*/
-
-// CODE: 
-
-void rotate(vector<vector<int>>& matrix) {
-    // Transpose the matrix
+// ---------------------- SOLUTION ----------------------
+void rotateMatrix(vector<vector<int>> &matrix)
+{
     int n = matrix.size();
-    int m = matrix[0].size();
-    for(int i=0; i<n; i++){
-        // note here we move 
-        for(int j=0; j<i; j++){
-            swap(matrix[i][j],matrix[j][i]);
+    // 1. Transpose
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            swap(matrix[i][j], matrix[j][i]);
         }
     }
 
-    // Reverse each row
-    for(int i=0; i<n; i++){
-        reverse(matrix[i].begin(),matrix[i].end());
+    // 2. Reverse each row
+    for (int i = 0; i < n; i++)
+    {
+        reverse(matrix[i].begin(), matrix[i].end());
     }
 }
 
-// TIME COMPLEXITY = O(N^2), where N is the size of the matrix.
-// SPACE COMPLEXITY = O(1)
+// ---------------------- CP DRIVER / SOLVE ----------------------
+void solve()
+{
+    int n;
+    if (!(cin >> n)) return;
+    vector<vector<int>> matrix(n, vector<int>(n));
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            cin >> matrix[i][j];
+        }
+    }
+    rotateMatrix(matrix);
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            cout << matrix[i][j] << (j == n - 1 ? "" : " ");
+        }
+        cout << "\n";
+    }
+}
+
+int main()
+{
+    fast_io;
+    int t = 1;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

@@ -1,37 +1,41 @@
-/*
-QUESTION:-
-Given an integer array nums, find the subarray with the largest sum, and return its sum.
+/**
+ * Problem: Maximum Subarray Sum (Kadane's Algorithm)
+ * 
+ * QUESTION:
+ * Given an integer array nums, find the subarray with the largest sum, and return its sum.
+ * 
+ * Example:
+ * Input: nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+ * Output: 6
+ * Explanation: The subarray [4, -1, 2, 1] has the largest sum 6.
+ * 
+ * APPROACH:
+ * Kadane's Algorithm:
+ * -> Iterate through the array maintaining curr_sum and ans (max sum).
+ * -> curr_sum += nums[i].
+ * -> ans = max(ans, curr_sum).
+ * -> If curr_sum < 0, reset curr_sum = 0.
+ * 
+ * TIME COMPLEXITY: O(N)
+ * SPACE COMPLEXITY: O(1)
+ */
 
-Example 1:
+#include <bits/stdc++.h>
+using namespace std;
 
-Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
-Output: 6
-Explanation: The subarray [4,-1,2,1] has the largest sum 6.
+#define fast_io ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define ll long long
+#define vi vector<int>
+#define vll vector<long long>
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
 
-Example 2:
-
-Input: nums = [1]
-Output: 1
-Explanation: The subarray [1] has the largest sum 1.
-*/
-
-/*
-APPROACH:-
--> Initialize two variables: maxSum and currentSum. Set both variables to the first element of the array.
--> Iterate through the array starting from the second element:
-    Update currentSum by adding the current element to it.
-    If currentSum becomes negative, reset it to 0. This step ensures that we consider only the subarrays with positive sums.
-    Update maxSum by taking the maximum value between maxSum and currentSum. This keeps track of the maximum subarray sum encountered so far.
--> After the iteration, the maxSum variable will hold the largest sum of any subarray.
--> Return the maxSum as the result.
-*/
-
-// CODE:-
-int maxSubArray(vector<int> &nums)
+// ---------------------- SOLUTION ----------------------
+int maxSubArray(const vector<int> &nums)
 {
     int curr_sum = 0;
     int ans = INT_MIN;
-    for (int i = 0; i < nums.size(); i++)
+    for (int i = 0; i < (int)nums.size(); i++)
     {
         curr_sum += nums[i];
         ans = max(ans, curr_sum);
@@ -41,5 +45,27 @@ int maxSubArray(vector<int> &nums)
     return ans;
 }
 
-// TIME COMPLEXITY = O(N)
-// SPACE COMPLEXITY = O(0)
+// ---------------------- CP DRIVER / SOLVE ----------------------
+void solve()
+{
+    int n;
+    if (!(cin >> n)) return;
+    vector<int> nums(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> nums[i];
+    }
+    cout << maxSubArray(nums) << "\n";
+}
+
+int main()
+{
+    fast_io;
+    int t = 1;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

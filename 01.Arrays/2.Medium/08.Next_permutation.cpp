@@ -1,45 +1,45 @@
-/*
-QUESTION:-
+/**
+ * Problem: Next Permutation
+ * 
+ * QUESTION:
+ * A permutation of an array of integers is an arrangement of its members into a sequence or linear order.
+ * Given an array of integers nums, find the next lexicographically greater permutation of its integer elements.
+ * If such an arrangement is not possible, it must be rearranged as the lowest possible order (i.e., sorted in ascending order).
+ * 
+ * Example 1:
+ * Input: nums = [1, 2, 3]
+ * Output: [1, 3, 2]
+ * 
+ * Example 2:
+ * Input: nums = [3, 2, 1]
+ * Output: [1, 2, 3]
+ * 
+ * APPROACH:
+ * 1. Find the breakpoint bp from the right where nums[i] < nums[i+1].
+ * 2. If no breakpoint exists (bp == -1), simply reverse the whole array.
+ * 3. Otherwise, find the smallest element to the right of bp that is greater than nums[bp], and swap them.
+ * 4. Reverse the suffix from bp + 1 to the end.
+ * 
+ * TIME COMPLEXITY: O(N)
+ * SPACE COMPLEXITY: O(1)
+ */
 
-A permutation of an array of integers is an arrangement of its members into a sequence or linear order.
+#include <bits/stdc++.h>
+using namespace std;
 
-For example, for arr = [1,2,3], the following are all the permutations of arr: [1,2,3], [1,3,2], [2, 1, 3], [2, 3, 1], [3,1,2], [3,2,1].
-The next permutation of an array of integers is the next lexicographically greater permutation of its integer. More formally, if all the permutations of the array are sorted in one container according to their lexicographical order, then the next permutation of that array is the permutation that follows it in the sorted container. If such arrangement is not possible, the array must be rearranged as the lowest possible order (i.e., sorted in ascending order).
+#define fast_io ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define ll long long
+#define vi vector<int>
+#define vll vector<long long>
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
 
-For example, the next permutation of arr = [1,2,3] is [1,3,2].
-Similarly, the next permutation of arr = [2,3,1] is [3,1,2].
-While the next permutation of arr = [3,2,1] is [1,2,3] because [3,2,1] does not have a lexicographical larger rearrangement.
-
-Given an array of integers nums, find the next permutation of nums.
-
-The replacement must be in place and use only constant extra memory.
-
-Example 1:
-Input: nums = [1,2,3]
-Output: [1,3,2]
-*/
-
-/*
-APPROACH:-
-
-To find the next permutation of an array, we can follow these steps:
-
-1. Find the first index `i` from the right such that `nums[i] < nums[i+1]`. This is the first element that needs to be swapped.
-2. Find the first index `j` from the right such that `nums[j] > nums[i]`. This is the element that will replace `nums[i]`.
-3. Swap `nums[i]` and `nums[j]`.
-4. Reverse the subarray starting from `i+1` till the end of the array.
-5. If step 1 does not find any index `i`, it means the array is in descending order. In that case, reverse the entire array to get the lowest possible order.
-
-*/
-
-// CODE:
-
+// ---------------------- SOLUTION ----------------------
 void nextPermutation(vector<int> &nums)
 {
-
+    int n = nums.size();
     int bp = -1;
-    // finding the break point
-    for (int i = nums.size() - 2; i >= 0; i--)
+    for (int i = n - 2; i >= 0; i--)
     {
         if (nums[i] < nums[i + 1])
         {
@@ -47,10 +47,10 @@ void nextPermutation(vector<int> &nums)
             break;
         }
     }
-    // first greater element from back
+
     if (bp != -1)
     {
-        for (int i = nums.size() - 1; i >= 0; i--)
+        for (int i = n - 1; i >= 0; i--)
         {
             if (nums[i] > nums[bp])
             {
@@ -59,9 +59,36 @@ void nextPermutation(vector<int> &nums)
             }
         }
     }
-    // reverse the array from bp+1 to end
+
     reverse(nums.begin() + bp + 1, nums.end());
 }
 
-// TIME COMPLEXITY: O(n), where n is the size of the input array.
-// SPACE COMPLEXITY: O(1)
+// ---------------------- CP DRIVER / SOLVE ----------------------
+void solve()
+{
+    int n;
+    if (!(cin >> n)) return;
+    vector<int> nums(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> nums[i];
+    }
+    nextPermutation(nums);
+    for (int i = 0; i < n; i++)
+    {
+        cout << nums[i] << (i == n - 1 ? "" : " ");
+    }
+    cout << "\n";
+}
+
+int main()
+{
+    fast_io;
+    int t = 1;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

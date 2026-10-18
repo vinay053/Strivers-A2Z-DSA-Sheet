@@ -1,38 +1,40 @@
-/*
-QUESTION:-
+/**
+ * Problem: Remove Duplicates from Sorted Array
+ * 
+ * QUESTION:
+ * Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that
+ * each unique element appears only once. The relative order of the elements should be kept the same.
+ * Then return the number of unique elements in nums.
+ * 
+ * Example:
+ * Input: nums = [1, 1, 2]
+ * Output: 2, nums = [1, 2, _]
+ * 
+ * APPROACH:
+ * -> Keep a pointer k which signifies that up to k the array contains unique elements.
+ * -> Traverse the entire array; if nums[k] != nums[j], increment k and swap nums[k] with nums[j].
+ * -> Return k + 1.
+ * 
+ * TIME COMPLEXITY: O(N)
+ * SPACE COMPLEXITY: O(1)
+ */
 
-Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
-Consider the number of unique elements of nums to be k, to get accepted, you need to do the following things:
-Change the array nums such that the first k elements of nums contain the unique elements in the order they were present in nums initially. The remaining elements of nums are not important as well as the size of nums.
-Return k.
+#include <bits/stdc++.h>
+using namespace std;
 
-Example 1:
+#define fast_io ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define ll long long
+#define vi vector<int>
+#define vll vector<long long>
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
 
-Input: nums = [1,1,2]
-Output: 2, nums = [1,2,_]
-Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-Example 2:
-
-Input: nums = [0,0,1,1,1,2,2,3,3,4]
-Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
-Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-*/
-
-/*
-APPROACH:-
--> The idea, is to use keep a pointer k which signifies that upto here the array is sorted
--> Now travese the entire array and if arr[k]!=arr[j] that is arr[j] is a unique value hence it should be included
-   so increment the k and swap arr[k] with arr[j]
--> Return k+1, +1 is because of 0 based indexing
-*/
-
-// CODE:-
+// ---------------------- SOLUTION ----------------------
 int removeDuplicates(vector<int> &nums)
 {
-    int k = 0; // upto k array contains unique elements
-    for (int j = 1; j < nums.size(); j++)
+    if (nums.empty()) return 0;
+    int k = 0; // up to k, array contains unique elements
+    for (int j = 1; j < (int)nums.size(); j++)
     {
         if (nums[k] != nums[j])
         {
@@ -43,5 +45,33 @@ int removeDuplicates(vector<int> &nums)
     return k + 1;
 }
 
-// TIME COMPLEXITY = O(N)
-// SPACE COMPLEXITY = O(0)
+// ---------------------- CP DRIVER / SOLVE ----------------------
+void solve()
+{
+    int n;
+    if (!(cin >> n)) return;
+    vector<int> nums(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> nums[i];
+    }
+    int k = removeDuplicates(nums);
+    cout << k << "\n";
+    for (int i = 0; i < k; i++)
+    {
+        cout << nums[i] << (i == k - 1 ? "" : " ");
+    }
+    cout << "\n";
+}
+
+int main()
+{
+    fast_io;
+    int t = 1;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

@@ -1,59 +1,80 @@
-/*
-QUESTION:-
+/**
+ * Problem: Longest Consecutive Sequence
+ * 
+ * QUESTION:
+ * Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.
+ * You must write an algorithm that runs in O(n) time.
+ * 
+ * Example:
+ * Input: nums = [100, 4, 200, 1, 3, 2]
+ * Output: 4
+ * Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.
+ * 
+ * APPROACH:
+ * -> Insert all elements into an unordered_set.
+ * -> For each element, check if it is the start of a sequence (i.e. (num - 1) is not in the set).
+ * -> If yes, count consecutively how many elements (num + 1, num + 2, ...) exist in the set.
+ * -> ans = max(ans, streak length).
+ * 
+ * TIME COMPLEXITY: O(N)
+ * SPACE COMPLEXITY: O(N)
+ */
 
-Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.
+#include <bits/stdc++.h>
+using namespace std;
 
-Example 1:
-Input: nums = [100,4,200,1,3,2]
-Output: 4
-Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.
+#define fast_io ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define ll long long
+#define vi vector<int>
+#define vll vector<long long>
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
 
-Example 2:
-Input: nums = [0,3,7,2,5,8,4,6,0,1]
-Output: 9
-*/
-
-/*
-APPROACH:-
-
-To find the length of the longest consecutive elements sequence, we can follow these steps:
-
-1. Create a set to store all the elements of the array.
-2. Iterate through the array and insert each element into the set.
-3. For each element, check if its previous consecutive element (num-1) exists in the set. If it does not exist, it means the current element is the starting element of a sequence.
-4. For each starting element, keep incrementing the current element (num+1) and checking if it exists in the set. This will help find the consecutive elements in the sequence.
-5. Keep track of the maximum length of consecutive elements encountered.
-6. Return the maximum length as the result.
-
-*/
-
-// CODE:
-int longestConsecutive(vector<int> &nums)
+// ---------------------- SOLUTION ----------------------
+int longestConsecutive(const vector<int> &nums)
 {
-    unordered_map<int, int> mp;
-    for (int i = 0; i < nums.size(); i++)
-    {
-        mp[nums[i]]++;
-    }
+    unordered_set<int> st(nums.begin(), nums.end());
     int ans = 0;
-    for (int i = 0; i < nums.size(); i++)
+
+    for (int x : st)
     {
-        int start = nums[i];
-        // check whehter this can be the start of the subsequence
-        if (mp.find(nums[i] - 1) == mp.end())
+        // Only start counting if x is the beginning of a streak
+        if (st.find(x - 1) == st.end())
         {
-            int temp = 1;
-            int nxt = nums[i];
-            while (mp.find(nxt + 1) != mp.end())
+            int curr = x;
+            int streak = 1;
+            while (st.find(curr + 1) != st.end())
             {
-                temp++;
-                nxt++;
+                curr++;
+                streak++;
             }
-            ans = max(ans, temp);
+            ans = max(ans, streak);
         }
     }
     return ans;
 }
 
-// TIME COMPLEXITY: O(n), where n is the size of the input array.
-// SPACE COMPLEXITY: O(n), as we are using a set to store the elements of the array.
+// ---------------------- CP DRIVER / SOLVE ----------------------
+void solve()
+{
+    int n;
+    if (!(cin >> n)) return;
+    vector<int> nums(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> nums[i];
+    }
+    cout << longestConsecutive(nums) << "\n";
+}
+
+int main()
+{
+    fast_io;
+    int t = 1;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

@@ -1,0 +1,12 @@
+.markdown-preview-view,
+.markdown-source-view {
+    font-family: "Caveat", cursive;
+    font-size: 22px;
+}
+
+.markdown-preview-view code,
+.markdown-preview-view pre,
+.markdown-source-view .cm-inline-code {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 15px;
+}

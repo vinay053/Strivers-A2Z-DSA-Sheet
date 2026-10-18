@@ -1,36 +1,39 @@
-/*
-QUESTION:-
-Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
-We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.
-You must solve this problem without using the library's sort function.
+/**
+ * Problem: Sort Colors (Sort 0s, 1s, and 2s / Dutch National Flag)
+ * 
+ * QUESTION:
+ * Given an array nums with n objects colored red, white, or blue, sort them in-place
+ * so that objects of the same color are adjacent, with the colors in the order red (0), white (1), and blue (2).
+ * 
+ * Example:
+ * Input: nums = [2, 0, 2, 1, 1, 0]
+ * Output: [0, 0, 1, 1, 2, 2]
+ * 
+ * APPROACH:
+ * Dutch National Flag Algorithm:
+ * -> Maintain 3 pointers: low = 0, mid = 0, high = n - 1.
+ * -> If nums[mid] == 0: swap(nums[low], nums[mid]), low++, mid++
+ * -> If nums[mid] == 1: mid++
+ * -> If nums[mid] == 2: swap(nums[mid], nums[high]), high--
+ * 
+ * TIME COMPLEXITY: O(N)
+ * SPACE COMPLEXITY: O(1)
+ */
 
-Example 1:
+#include <bits/stdc++.h>
+using namespace std;
 
-Input: nums = [2,0,2,1,1,0]
-Output: [0,0,1,1,2,2]
+#define fast_io ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define ll long long
+#define vi vector<int>
+#define vll vector<long long>
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
 
-Example 2:
-
-Input: nums = [2,0,1]
-Output: [0,1,2]
-*/
-
-/*
-APPROACH:-
--> Initialize three pointers: low at the beginning of the array, mid at the beginning of the array, and high at the end of the array.
--> Iterate through the array while the mid pointer is less than or equal to the high pointer:
-1. If the current element at the mid pointer is 0 (red), we swap it with the element at the low pointer and increment both low and mid pointers. This ensures that red elements are moved to the left side of the array.
-2. If the current element at the mid pointer is 1 (white), we simply increment the mid pointer. This keeps white elements in the middle of the array.
-3. If the current element at the mid pointer is 2 (blue), we swap it with the element at the high pointer and decrement the high pointer. This ensures that blue elements are moved to the right side of the array.
-
-Repeat step 2 until the mid pointer crosses the high pointer.
-At the end of the algorithm, the array will be sorted in the desired order.
-*/
-
-// CODE:-
+// ---------------------- SOLUTION ----------------------
 void sortColors(vector<int> &nums)
 {
-    int low = 0, mid = 0, high = nums.size() - 1;
+    int low = 0, mid = 0, high = (int)nums.size() - 1;
     while (mid <= high)
     {
         if (nums[mid] == 0)
@@ -42,5 +45,32 @@ void sortColors(vector<int> &nums)
     }
 }
 
-// TIME COMPLEXITY = O(N)
-// SPACE COMPLEXITY = O(0)
+// ---------------------- CP DRIVER / SOLVE ----------------------
+void solve()
+{
+    int n;
+    if (!(cin >> n)) return;
+    vector<int> nums(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> nums[i];
+    }
+    sortColors(nums);
+    for (int i = 0; i < n; i++)
+    {
+        cout << nums[i] << (i == n - 1 ? "" : " ");
+    }
+    cout << "\n";
+}
+
+int main()
+{
+    fast_io;
+    int t = 1;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

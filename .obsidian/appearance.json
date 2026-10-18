@@ -1,0 +1,11 @@
+{
+  "enabledCssSnippets": [
+    "handwritten"
+  ],
+  "textFontFamily": "Caveat",
+  "monospaceFontFamily": "JetBrainsMono Nerd Font",
+  "interfaceFontFamily": "",
+  "accentColor": "#2ef55f",
+  "theme": "obsidian",
+  "baseFontSize": 24
+}

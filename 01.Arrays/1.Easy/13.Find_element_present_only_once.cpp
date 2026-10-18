@@ -1,36 +1,65 @@
-/*
-QUESTION:-
-Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.
-You must implement a solution with a linear runtime complexity and use only constant extra space.
+/**
+ * Problem: Single Number (Find Element Present Only Once)
+ * 
+ * QUESTION:
+ * Given a non-empty array of integers nums, every element appears twice except for one.
+ * Find that single one.
+ * 
+ * Example:
+ * Input: nums = [4, 1, 2, 1, 2]
+ * Output: 4
+ * 
+ * APPROACH:
+ * -> Use XOR operation: a ^ a = 0 and a ^ 0 = a.
+ * -> Initial xr = 0, then traverse the array and xor each element with xr.
+ * -> Duplicate elements cancel out, leaving the single element.
+ * 
+ * TIME COMPLEXITY: O(N)
+ * SPACE COMPLEXITY: O(1)
+ */
 
+#include <bits/stdc++.h>
+using namespace std;
 
-Example 1:
-Input: nums = [2,2,1]
-Output: 1
+#define fast_io ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define ll long long
+#define vi vector<int>
+#define vll vector<long long>
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
 
-Example 2:
-Input: nums = [4,1,2,1,2]
-Output: 4
-*/
-
-/*
-APPROACH:-
--> We can use XOR operation as we know xor cancles out the same elements
--> Intial xr=0 then traverse the entire array and xor each element with xr
--> Since only one element is present once and all other are present twice so the remaining element would be the
-    one which is present only once cause all other gets cancels out
-*/
-
-// CODE:-
-int singleNumber(vector<int> &nums)
+// ---------------------- SOLUTION ----------------------
+int singleNumber(const vector<int> &nums)
 {
     int xr = 0;
-    for (int i = 0; i < nums.size(); i++)
+    for (int x : nums)
     {
-        xr = nums[i] ^ xr;
+        xr ^= x;
     }
     return xr;
 }
 
-// TIME COMPLEXITY = O(N)
-// SPACE COMPLEXITY = O(0)
+// ---------------------- CP DRIVER / SOLVE ----------------------
+void solve()
+{
+    int n;
+    if (!(cin >> n)) return;
+    vector<int> nums(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> nums[i];
+    }
+    cout << singleNumber(nums) << "\n";
+}
+
+int main()
+{
+    fast_io;
+    int t = 1;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

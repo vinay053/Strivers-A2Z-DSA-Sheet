@@ -1,32 +1,44 @@
-/*
-QUESTION:
-Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.
+/**
+ * Problem: Subarray Sum Equals K
+ * 
+ * QUESTION:
+ * Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.
+ * A subarray is a contiguous non-empty sequence of elements within an array.
+ * 
+ * Example:
+ * Input: nums = [1, 1, 1], k = 2
+ * Output: 2
+ * 
+ * APPROACH:
+ * Prefix Sum with Hash Map:
+ * -> Maintain a prefix sum and an unordered_map to store frequency of prefix sums.
+ * -> At each element, pref_sum += nums[i].
+ * -> If pref_sum == k, increment ans.
+ * -> If (pref_sum - k) exists in the map, ans += mp[pref_sum - k].
+ * -> Increment frequency of current pref_sum in the map.
+ * 
+ * TIME COMPLEXITY: O(N)
+ * SPACE COMPLEXITY: O(N)
+ */
 
-Example:
-Input: nums = [1,1,1], k = 2
-Output: 2
+#include <bits/stdc++.h>
+using namespace std;
 
-APPROACH:
-To find the total number of subarrays with sum equal to k, we can use the technique of prefix sum along with a hashmap.
-1. Initialize a variable `count` to keep track of the count of subarrays with sum equal to k.
-2. Initialize a variable `prefixSum` to keep track of the prefix sum while iterating through the array.
-3. Initialize a hashmap `sumCount` to store the frequency of prefix sums encountered so far.
-4. Set the initial prefix sum to 0 and set its count to 1 in the `sumCount` hashmap.
-5. Iterate through the array and update the prefix sum by adding each element.
-6. Check if the current prefix sum minus k exists in the `sumCount` hashmap. If it does, add the count of that prefix sum to the `count` variable.
-7. Increment the count of the current prefix sum in the `sumCount` hashmap.
-8. Finally, return the `count` variable as the total number of subarrays with sum equal to k.
+#define fast_io ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define ll long long
+#define vi vector<int>
+#define vll vector<long long>
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
 
-CODE:
-*/
-
-int subarraySum(vector<int> &nums, int k)
+// ---------------------- SOLUTION ----------------------
+int subarraySum(const vector<int> &nums, int k)
 {
     int pref_sum = 0;
     unordered_map<int, int> mp;
     int ans = 0;
 
-    for (int i = 0; i < nums.size(); i++)
+    for (int i = 0; i < (int)nums.size(); i++)
     {
         pref_sum += nums[i];
 
@@ -44,7 +56,27 @@ int subarraySum(vector<int> &nums, int k)
     return ans;
 }
 
-/*
-TIME COMPLEXITY: O(n), where n is the size of the input array nums.
-SPACE COMPLEXITY: O(n), as we are using a hashmap to store the prefix sums and their corresponding counts.
-*/
+// ---------------------- CP DRIVER / SOLVE ----------------------
+void solve()
+{
+    int n, k;
+    if (!(cin >> n >> k)) return;
+    vector<int> nums(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> nums[i];
+    }
+    cout << subarraySum(nums, k) << "\n";
+}
+
+int main()
+{
+    fast_io;
+    int t = 1;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}
